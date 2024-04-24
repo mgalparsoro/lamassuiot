@@ -308,3 +308,46 @@ func TestCalculateECDSAKeySizes(t *testing.T) {
 		t.Errorf("Unexpected key sizes. Expected: %v, Got: %v", expectedKeySizes, keySizes)
 	}
 }
+func TestLoadSystemCACertPoolWithExtraCAsFromFiles(t *testing.T) {
+	// Test case 1: casToAdd is empty
+	certPool := LoadSystemCACertPoolWithExtraCAsFromFiles([]string{})
+	if certPool == nil {
+		t.Errorf("Expected non-nil certPool, but got nil")
+	}
+	baseCACount := len(certPool.Subjects())
+
+	// Test case 2: casToAdd contains valid CA files
+	casToAdd := []string{
+		"testdata/cacertificate.pem",
+		"testdata/noncacert.pem",
+	}
+	certPool = LoadSystemCACertPoolWithExtraCAsFromFiles(casToAdd)
+	if certPool == nil {
+		t.Errorf("Expected non-nil certPool, but got nil")
+	}
+
+	// Verify that the certPool contains the expected number of CA certificates
+	expectedCACount := len(casToAdd) + baseCACount
+	actualCACount := len(certPool.Subjects())
+	if actualCACount != expectedCACount {
+		t.Errorf("Expected %d CA certificates in certPool, but got %d", expectedCACount, actualCACount)
+	}
+
+	// Test case 3: casToAdd contains invalid CA files
+	casToAdd = []string{
+		"invalid_ca.crt",
+		"testdata/cacertificate.pem",
+		"",
+	}
+	certPool = LoadSystemCACertPoolWithExtraCAsFromFiles(casToAdd)
+	if certPool == nil {
+		t.Errorf("Expected non-nil certPool, but got nil")
+	}
+
+	// Verify that the certPool contains the expected number of CA certificates
+	expectedCACount = len(casToAdd) - 2 + baseCACount // two CA certificates should be skipped due to error
+	actualCACount = len(certPool.Subjects())
+	if actualCACount != expectedCACount {
+		t.Errorf("Expected %d CA certificates in certPool, but got %d", expectedCACount, actualCACount)
+	}
+}

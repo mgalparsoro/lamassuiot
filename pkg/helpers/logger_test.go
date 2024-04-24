@@ -2,9 +2,11 @@ package helpers
 
 import (
 	"context"
+	"io"
 	"net/http"
 	"testing"
 
+	"github.com/lamassuiot/lamassuiot/v2/pkg/config"
 	"github.com/lamassuiot/lamassuiot/v2/pkg/models"
 	"github.com/sirupsen/logrus"
 )
@@ -92,5 +94,40 @@ func TestConfigureContextWithRequest(t *testing.T) {
 	ignored := ctx.Value("x-ignored")
 	if ignored != nil {
 		t.Errorf("ConfigureContextWithRequest should not have set the ignored header in the context. Got: %v", ignored)
+	}
+}
+
+func TestConfigureLogger(t *testing.T) {
+	// Test case 1: currentLevel is config.None
+	currentLevel := config.None
+	subsystem := "test-subsystem"
+
+	logger := ConfigureLogger(currentLevel, subsystem)
+
+	// Verify that the logger output is set to io.Discard
+	if logger.Logger.Out != io.Discard {
+		t.Error("ConfigureLogger did not set logger output to io.Discard when currentLevel is config.None")
+	}
+
+	// Test case 2: currentLevel is valid
+	currentLevel = config.Info
+	subsystem = "test-subsystem"
+
+	logger = ConfigureLogger(currentLevel, subsystem)
+
+	// Verify that the logger level is set correctly
+	if logger.Logger.Level != logrus.InfoLevel {
+		t.Errorf("ConfigureLogger did not set logger level correctly. Expected: %v, Got: %v", logrus.InfoLevel, logger.Logger.Level)
+	}
+
+	// Test case 3: currentLevel is invalid
+	currentLevel = "invalid-level"
+	subsystem = "test-subsystem"
+
+	logger = ConfigureLogger(currentLevel, subsystem)
+
+	// Verify that the logger level is set to the default level
+	if logger.Logger.GetLevel() != logrus.GetLevel() {
+		t.Errorf("ConfigureLogger did not set logger level to default when currentLevel is invalid. Expected: %v, Got: %v", logrus.GetLevel(), logger.Logger.GetLevel())
 	}
 }

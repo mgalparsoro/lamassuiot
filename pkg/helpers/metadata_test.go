@@ -48,3 +48,28 @@ func TestGetMetadataToStruct_NonexistentKey(t *testing.T) {
 		t.Errorf("GetMetadataToStruct should have returned false for key5")
 	}
 }
+
+func TestGetMetadataToStruct_Marshal_Error(t *testing.T) {
+
+	metadata := map[string]any{
+		"key1": "value1",
+		"key2": nil,
+		"key3": true,
+	}
+
+	metadata2 := map[string]any{
+		"key1": "value1",
+		"key2": 123,
+		"key3": true,
+	}
+
+	// A cyckle in the metadata forces the json.Marshal to fail
+	metadata2["key2"] = metadata
+	metadata["key2"] = metadata2
+
+	var str any
+	_, err := GetMetadataToStruct(metadata, "key2", &str)
+	if err == nil {
+		t.Errorf("GetMetadataToStruct should have returned error but got %s", str)
+	}
+}
