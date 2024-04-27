@@ -3,7 +3,6 @@ module github.com/lamassuiot/lamassuiot/v2
 go 1.22.1
 
 require (
-	github.com/AvraamMavridis/randomcolor v0.0.0-20180822172341-208aff70bf2c
 	github.com/ThalesIgnite/crypto11 v1.2.1
 	github.com/ThreeDotsLabs/watermill v1.3.5
 	github.com/ThreeDotsLabs/watermill-amazonsqs v0.0.3
@@ -49,8 +48,8 @@ require (
 	golang.org/x/text v0.14.0
 	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df
 	gopkg.in/yaml.v2 v2.4.0
-	gorm.io/driver/postgres v1.5.2
-	gorm.io/gorm v1.25.4
+	gorm.io/driver/postgres v1.5.7
+	gorm.io/gorm v1.25.10
 
 )
 
@@ -101,7 +100,8 @@ require (
 	github.com/gorilla/websocket v1.5.0 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
 	github.com/imdario/mergo v0.3.15 // indirect
-	github.com/jackc/pgx/v5 v5.3.1 // indirect
+	github.com/jackc/pgx/v5 v5.5.5 // indirect
+	github.com/jackc/puddle/v2 v2.2.1 // indirect
 	github.com/jellydator/ttlcache/v3 v3.1.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.4 // indirect
