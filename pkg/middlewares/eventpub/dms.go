@@ -11,12 +11,10 @@ import (
 
 type dmsEventPublisher struct {
 	next       services.DMSManagerService
-	eventMWPub CloudEventMiddlewarePublisher
+	eventMWPub ICloudEventMiddlewarePublisher
 }
 
-const dmsSource = "lamassuiot.dms-manager"
-
-func NewDMSEventPublisher(eventMWPub CloudEventMiddlewarePublisher) services.DMSManagerMiddleware {
+func NewDMSEventPublisher(eventMWPub ICloudEventMiddlewarePublisher) services.DMSManagerMiddleware {
 	return func(next services.DMSManagerService) services.DMSManagerService {
 		return &dmsEventPublisher{
 			next:       next,
@@ -47,7 +45,7 @@ func (mw dmsEventPublisher) UpdateDMS(ctx context.Context, input services.Update
 	}
 	defer func() {
 		if err == nil {
-			mw.eventMWPub.PublishCloudEvent(ctx, models.EventUpdateDMSMetadataKey, models.UpdateModel[models.DMS]{
+			mw.eventMWPub.PublishCloudEvent(ctx, models.EventUpdateDMSKey, models.UpdateModel[models.DMS]{
 				Previous: *prev,
 				Updated:  *output,
 			})

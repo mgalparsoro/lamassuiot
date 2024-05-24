@@ -21,13 +21,14 @@ type UpdateModel[E any] struct {
 type EventType string
 
 const (
-	EventCreateCAKey         EventType = "ca.create"
-	EventImportCAKey         EventType = "ca.import"
-	EventUpdateCAStatusKey   EventType = "ca.status.update"
-	EventUpdateCAMetadataKey EventType = "ca.metadata.update"
-	EventSignCertificateKey  EventType = "ca.sign.certificate"
-	EventSignatureSignKey    EventType = "ca.sign.signature"
-	EventDeleteCAKey         EventType = "ca.delete"
+	EventCreateCAKey            EventType = "ca.create"
+	EventImportCAKey            EventType = "ca.import"
+	EventImportCACertificateKey EventType = "ca.certificate.import"
+	EventUpdateCAStatusKey      EventType = "ca.status.update"
+	EventUpdateCAMetadataKey    EventType = "ca.metadata.update"
+	EventSignCertificateKey     EventType = "ca.sign.certificate"
+	EventSignatureSignKey       EventType = "ca.sign.signature"
+	EventDeleteCAKey            EventType = "ca.delete"
 
 	EventCreateCertificateKey         EventType = "certificate.create"
 	EventImportCertificateKey         EventType = "certificate.import"
@@ -35,7 +36,7 @@ const (
 	EventUpdateCertificateMetadataKey EventType = "certificate.metadata.update"
 
 	EventCreateDMSKey          EventType = "dms.create"
-	EventUpdateDMSMetadataKey  EventType = "dms.metadata.update"
+	EventUpdateDMSKey          EventType = "dms.update"
 	EventEnrollKey             EventType = "dms.enroll"
 	EventReEnrollKey           EventType = "dms.reenroll"
 	EventBindDeviceIdentityKey EventType = "dms.bind-device-id"
