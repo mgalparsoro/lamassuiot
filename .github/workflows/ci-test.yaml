@@ -2,7 +2,7 @@ name: CI Launch Tests
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, feature/test-coveragePR]
     types: [opened, synchronize, reopened]
   workflow_dispatch:
     inputs:
