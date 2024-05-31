@@ -36,6 +36,11 @@ jobs:
           go run gotest.tools/gotestsum@latest --format github-actions ./pkg/... -coverpkg=./... -timeout 600s -coverprofile coverage.txt
           float_coverage=$(go tool cover -func coverage.txt | grep total | awk '{print substr($3, 1, length($3)-1)}')
           echo "coverage=$float_coverage" >> $GITHUB_OUTPUT
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4.0.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: lamassuiot/lamassuiot.github.io
     
       # - name: Upload Coverage report to CodeCov
       #   uses: codecov/codecov-action@v1.0.0
