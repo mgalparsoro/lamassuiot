@@ -46,7 +46,7 @@ jobs:
         uses: codecov/codecov-action@v4.0.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          commit_parent: ${{ github.event.pull_request.base.sha }}
+          commit_parent: db73d8765d457b1a2d544a342a3fd1ebea7a60c1
                           
           
           codecov_yml_path: codecov.yml
