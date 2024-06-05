@@ -1,6 +1,5 @@
 name: CI Launch Tests
 
- 
 on:
   pull_request:
     types: [opened, synchronize, reopened]
@@ -13,9 +12,7 @@ on:
     outputs:
       coverage:
         description: "Coverage report"
-        value: ${{ jobs.test.outputs.coverage }}  
- 
- 
+        value: ${{ jobs.test.outputs.coverage }}   
 jobs:
   test:
     name: Run Tests
@@ -32,21 +29,12 @@ jobs:
           go-version: '^1.20.0' # The Go version to download (if necessary) and use.
  
       - name: Install Dependencies
-        run: go mod download
-      - name: Create annotation for build error
-        run: echo ${{ github.event.pull_request.base.sha }}
-      - name: Create annotation for build error head
-        run: echo ${{ github.event.pull_request.head.sha }}
-      - name: Create annotation for build error manual
-        run: echo 94f32fde185f8fadf967cbf7c9f9954a58295e3e
-
-
-        
+        run: go mod download       
  
       - name: Run Golang Tests with coverage
         id: run
         run: | 
-          go run gotest.tools/gotestsum@latest --format github-actions ./pkg/assemblers/... -coverpkg=./... -timeout 600s -coverprofile coverage.txt
+          go run gotest.tools/gotestsum@latest --format github-actions ./pkg/... -coverpkg=./... -timeout 600s -coverprofile coverage.txt
           float_coverage=$(go tool cover -func coverage.txt | grep total | awk '{print substr($3, 1, length($3)-1)}')
           echo "coverage=$float_coverage" >> $GITHUB_OUTPUT
       - name: Upload coverage reports to Codecov
